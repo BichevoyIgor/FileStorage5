@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<VBox spacing="5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.RegController">
+    <TextField fx:id="loginField" minWidth="200" promptText="login"/>
+    <PasswordField fx:id="passwordField" minWidth="200" promptText="password"/>
+    <Button text="Зарегистрироваться" fx:id="reg" onAction="#registration"/>
+    <Button text="Авторизоваться" fx:id="auth" onAction="#authentication"/>
+    <padding>
+        <Insets bottom="5.0" left="5" right="5" top="5"/>
+    </padding>
+</VBox>

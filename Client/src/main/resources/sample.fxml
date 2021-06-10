@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Controller">
+    <top>
+        <MenuBar fx:id="menuBar">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <Menu fx:id="menuFile" text="Файл">
+                <MenuItem fx:id="menuItemCloseWindow" onAction="#closeWindow" text="Закрыть программу" />
+                <MenuItem fx:id="auth" text="Авторизация" onAction="#auth" visible="true"/>
+                <MenuItem fx:id="exit" text="Выход" onAction="#exit"/>
+
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <HBox>
+            <VBox HBox.hgrow="ALWAYS" visible="false" fx:id="serverPart">
+                <HBox>
+                    <TextField fx:id="serverTextField" editable="false" HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#btnServerFolderUp" text="вверх"/>
+                    <Button minWidth="60" onAction="#btnMkDirServer" text="создать папку"/>
+                </HBox>
+                <ListView fx:id="serverFileList" VBox.vgrow="ALWAYS"/>
+            </VBox>
+            <VBox alignment="CENTER">
+                <Button minWidth="87" maxWidth="87" onAction="#copyFile" text="копировать файл" wrapText="true" textAlignment="CENTER"/>
+                <Button minWidth="87" maxWidth="87" onAction="#moveFile" text="переместить файл" wrapText="true" textAlignment="CENTER" />
+                <Button minWidth="87" maxWidth="87" onAction="#updateLists" text="обновить" />
+                <Button minWidth="87" maxWidth="87" onAction="#removeFile" text="удалить">
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <padding>
+                    <Insets left="5.0" right="5.0" />
+                </padding>
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS">
+                <HBox>
+                    <ComboBox fx:id="diskBox" onAction="#selectDiskAction" />
+                    <TextField fx:id="clientTextField" editable="false" HBox.hgrow="ALWAYS" />
+                    <Button onAction="#btnClientFolderUp" text="вверх" />
+                    <Button minWidth="60" onAction="#btnMkDirClient" text="создать папку" />
+                </HBox>
+                <ListView fx:id="clientFileList" VBox.vgrow="ALWAYS" />
+            </VBox>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+    </center>
+</BorderPane>
