@@ -23,8 +23,8 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.7.2</version>
         </dependency>
-
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -66,4 +66,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -9,7 +9,7 @@ public class Server {
     private ExecutorService service;
 
     public Server() {
-        service = Executors.newFixedThreadPool(3);
+        service = Executors.newFixedThreadPool(10);
         if (!SQLHandler.connect()) {
             throw new RuntimeException("Не удалось подключиться");
         }

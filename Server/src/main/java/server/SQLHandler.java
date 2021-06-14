@@ -11,8 +11,7 @@ public class SQLHandler {
     public static boolean connect() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:C:\\REPO\\FileStorage5\\Server\\src\\main\\resources\\UsersDB.db");
-            //connection = DriverManager.getConnection("jdbc:sqlite:./UsersDB.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:server/UsersDB.db");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,19 +61,6 @@ public class SQLHandler {
                 psRegistration.executeUpdate();
                 return true;
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-    }
-
-    public static boolean changeNick(String oldNickName, String newNickName) {
-        try {
-            psChangeNick = connection.prepareStatement("UPDATE users SET nickname = ? WHERE nickname = ?;");
-            psChangeNick.setString(1, newNickName);
-            psChangeNick.setString(2, oldNickName);
-            psChangeNick.executeUpdate();
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return false;

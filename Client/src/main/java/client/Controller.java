@@ -131,7 +131,6 @@ public class Controller implements Initializable {
                         }
                     }
                 });
-
                 try {
                     String command = in.readUTF();
                     if (command.startsWith("COMMAND_GETTREE_FROM_SERVER")) { // пришла строка вида "COMMAND_GETTREE_FROM_SERVER?папка?папка?файл"
@@ -411,9 +410,6 @@ public class Controller implements Initializable {
     }
 
     //метод отправки файла на сервер
-
-
-
     private void upload(String file) {
         try {
             File selectedFile = new File(currentPath + file);
@@ -493,7 +489,7 @@ public class Controller implements Initializable {
         }
     }
 
-    //перемещение ----------------------
+    //перемещение
     public void moveFile(ActionEvent actionEvent) {
         String clientFile = clientFileList.getSelectionModel().getSelectedItem();
         String serverFile = serverFileList.getSelectionModel().getSelectedItem();
@@ -537,17 +533,13 @@ public class Controller implements Initializable {
 
     }
 
-
-
     //Кнопка обновления списка файлов
-
     public void updateLists(ActionEvent actionEvent) {
         getFolderTreeFromServer(serverPath);
         loadTableList();
     }
 
     //создание директории на клиенте
-
     public void btnMkDirClient(ActionEvent actionEvent) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Создать папку");

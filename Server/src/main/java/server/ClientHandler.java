@@ -27,7 +27,6 @@ public class ClientHandler implements Runnable {
                     break;
                 } else if (command.startsWith("COMMAND_UPLOAD ")) {
                     String[] pathCommand = command.split(" ", 2);
-                    System.out.println("принимаю " + pathCommand[1]);
                     uploading(out, in, pathCommand[1]);
                 } else if (command.startsWith("COMMAND_GETTREE_FROM_SERVER")) {
                     String[] pathCommand = command.split(" ", 2); //разбор пришедшей команды
@@ -45,7 +44,6 @@ public class ClientHandler implements Runnable {
                     } else out.writeUTF("COMMAND_DIR_OR_FILE file");
                 } else if (command.startsWith("COMMAND_LEVEL_UP")) { // команда перехода вверх по иерархии папок
                     Path upperPath = Paths.get(currentPath).getParent();
-
                     if (upperPath != null && !currentPath.equals(String.format("C:\\" + currentUserName + "\\"))) { //доделать
                         currentPath = upperPath.toString();
                         if (!currentPath.endsWith("\\")) {
@@ -59,7 +57,6 @@ public class ClientHandler implements Runnable {
                     String[] pathCommand = command.split(" ", 2);
                     try {
                         Files.createDirectory(Path.of(currentPath + pathCommand[1]));
-                        System.out.println("создал папку " + pathCommand[1]);
                         out.writeUTF("COMMAND_NEW_FOLDER_STATUS " + pathCommand[1]);
                     } catch (IOException e) {
                         out.writeUTF("COMMAND_NEW_FOLDER_STATUS ERROR");
@@ -71,14 +68,10 @@ public class ClientHandler implements Runnable {
                         if (!file.exists()) {
                             throw new FileNotFoundException();
                         }
-
                         long fileLength = file.length();
                         FileInputStream fis = new FileInputStream(file);
-
                         out.writeUTF("COMMAND_DOWNLOAD " + pathCommand[1]);
-                        System.out.println("отдаю " + pathCommand[1]);
                         out.writeLong(fileLength);
-
                         int read = 0;
                         byte[] buffer = new byte[8 * 1024];
                         while ((read = fis.read(buffer)) != -1) {
@@ -93,10 +86,8 @@ public class ClientHandler implements Runnable {
                     String[] pathCommand = command.split(" ", 3);
                     currentUserName = SQLHandler.getNicknameAndPassword(pathCommand[1], pathCommand[2]);
                     if (currentUserName == null) {
-                        System.out.println("COMMAND_AUTH " + currentUserName);
                         sendMessage("COMMAND_AUTH_STATUS Логин или пароль не верный", out, in);
                     } else {
-                        System.out.println("auth ok");
                         currentPath = currentPath + pathCommand[1];
                         if (!currentPath.endsWith("\\")) {
                             currentPath = currentPath + "\\";
@@ -106,7 +97,6 @@ public class ClientHandler implements Runnable {
                 } else if (command.startsWith("COMMAND_REG ")) {
                     String[] pathCommand = command.split(" ", 3);
                     if (pathCommand.length > 3) {
-                        System.out.println("COMMAND_REG где то пробел");
                         continue; ///уведомить пользователя что логин с пробелом
                     }
                     boolean regSuccess = SQLHandler.registration(pathCommand[1], pathCommand[2]);
@@ -118,7 +108,6 @@ public class ClientHandler implements Runnable {
                         Files.createDirectory(Path.of(currentPath));
                         currentUserName = pathCommand[1];
                         sendMessage("COMMAND_REG_STATUS OK", out, in);
-                        System.out.println("зарегал");
                     } else sendMessage("COMMAND_REG_STATUS логин занят", out, in);
                 } else if (command.startsWith("COMMAND_CHANGE_USER")){
                     Path path = Path.of(currentPath);
@@ -140,22 +129,18 @@ public class ClientHandler implements Runnable {
     }
 
     //получение списка фалов и папок по переданному пути в качетсве параметра
-
     private String getDirTree(String path) {
-        //currentPath = path;
         String[] fileTree = new File(currentPath).list();
         StringBuilder sb = new StringBuilder("COMMAND_GETTREE_FROM_SERVER?" + currentPath);
         for (String s : fileTree) {
             sb.append("?").append(s);
         }
-        return sb.toString(); // итоговая строка состоящая из команды "COMMAND_GETTREE_FROM_SERVER?папка?папка?файл"
-
+        return sb.toString();
     }
 
     //удаление на сервере
     private void deleting(DataInputStream in, DataOutputStream out, String s) {
         String[] pathCommand = s.split(" ", 2);
-        System.out.println("удаляю " + pathCommand[1]);
         Path path = Path.of((currentPath + pathCommand[1]));
         try {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
@@ -182,7 +167,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-
     private void uploading(DataOutputStream out, DataInputStream in, String s) throws IOException {
         try {
             File file = new File(currentPath + s); // read file name
@@ -208,7 +192,6 @@ public class ClientHandler implements Runnable {
             sendMessage(e.getMessage(), out, in);
         }
     }
-
 
     public void sendMessage(String str, DataOutputStream out, DataInputStream in) {
         try {
